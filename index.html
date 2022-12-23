@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="dataB" class="timers">
+            <button onclick="countDown()">Start</button>
+        </div>
+    </div>
+    
+</body>
+
+</html>
+<script>
+    const api_url = "http://localhost:3000/data";
+    async function getapi(url) {
+        let data = {
+            "day": "loading",
+            "hour": "loading",
+            "minute": "loading",
+            "sec": "loading",
+            "cuurentYear": "loading"
+        };
+        const response = await fetch(url);
+        if(response) {
+             return data = await response.json();
+        }
+    }
+
+    async function show(data) {
+        let tab = `loading`;
+        tab = `
+            <h1>
+                Until ${data[4]} remains
+            </h1>
+            <div class="flex-i">
+                <div class="timer">
+                    <div><span id="day">${data[0]}</span> Day</div>
+                </div>
+                <div class="timer">
+                    <div><span id="hour">${data[1]}</span> Hour</div>
+                </div>
+                <div class="timer">
+                    <div><span id="min">${data[2]}</span> Min</div>
+                </div>
+                <div class="timer">
+                    <div><span id="sec">${data[3]}</span> Sec</div>
+                </div>
+            </div>
+        `;
+        document.getElementById("dataB").innerHTML = tab;
+}
+
+    async function countDown() {
+        let result = await getapi(api_url);
+        if(result) {
+            show(result);
+        }
+        setTimeout(countDown, 1000)
+    }
+    
+</script>

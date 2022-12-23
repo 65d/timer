@@ -1,0 +1,9 @@
+* {
+    font-family: monospace;
+}
+.flex-i {
+    display: flex;
+}
+.timer {
+    margin-right: 5px;
+}
